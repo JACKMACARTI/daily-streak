@@ -1,0 +1,20 @@
+name: Daily Commit
+
+on:
+  schedule:
+    - cron: '30 0 * * *'   # هر روز ساعت 00:30 UTC ≈ 04:00 صبح ایران
+  workflow_dispatch:
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create daily commit
+        run: |
+          date >> daily.txt
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "Daily streak commit $(date)"
+          git push
